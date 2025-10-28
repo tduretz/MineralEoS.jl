@@ -1,0 +1,10 @@
+name = "MineralEoS"
+uuid = "d2c9e738-65c1-4ec6-a6a5-c9a48276562c"
+authors = ["tduretz <duretz@uni-frankfurt.de>"]
+version = "0.1.0"
+
+[deps]
+Enzyme = "7da242da-08ed-463a-9acd-ee780be4f1d9"
+
+[compat]
+Enzyme = "0.13.93"
