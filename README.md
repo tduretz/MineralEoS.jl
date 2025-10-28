@@ -42,24 +42,17 @@ julia> (3526.1420454161394, 3.4091933464867834)
 ```
 
 # Governing equations
-The total pressure accounts for mechanical and thermal contributions:
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-$$
-    P = P_\text{ref}(V, T_\text{0}) + \Delta P_\text{th}(V, T) 
-$$
-</script>
+The total pressure accounts for mechanical and thermal contributions:\
+$$    P = P_\text{ref}(V, T_\text{0}) + \Delta P_\text{th}(V, T)  $$
+
 This equation is non-linear and can be solved for $V$ by Newton-Raphson iterations. The latter are greatly facilitated by the use of the automatic differention package [Enzyme.jl](https://github.com/EnzymeAD/Enzyme.jl).  
 
-The mechanical part accounts for the Birch-Murnaghan model:
-$$
-    P_\text{ref} = 3K_0 f (1+2f)^\frac{5}{2}  \left(1 + f\frac{3}{2}\left(\frac{\partial K}{\partial P} -4\right) + f^2 \frac{3}{2}\left(K_0\frac{\partial^2 K}{\partial P^2} + \left(\frac{\partial K}{\partial P} - 4\right) \left(\frac{\partial K}{\partial P}-3\right) + \frac{35}{9}\right) \right)
-$$
+The mechanical part accounts for the Birch-Murnaghan model:\
+$$ P_\text{ref} = 3K_0 f (1+2f)^\frac{5}{2}  \left(1 + f\frac{3}{2}\left(\frac{\partial K}{\partial P} -4\right) + f^2 \frac{3}{2}\left(K_0\frac{\partial^2 K}{\partial P^2} + \left(\frac{\partial K}{\partial P} - 4\right) \left(\frac{\partial K}{\partial P}-3\right) + \frac{35}{9}\right) \right)$$
 where $f = \frac{1}{2}\left(\left(\frac{V_0}{V}\right)^\frac{2}{3} - 1.0\right)$ and $K$ is the bulk modulus.
 
-The thermal is based on the Einstein model:
-$$
-\Delta P_\text{th} = 3 N \frac{γ}{V}\left(U(T) - U(T_\text{0})\right)
-$$
+The thermal is based on the Einstein model:\
+$$ \Delta P_\text{th} = 3 N \frac{γ}{V}\left(U(T) - U(T_\text{0})\right)$$
 where $N$ is a number of atoms, $U(T) = \frac{R \theta_\text{E}}{\exp{\frac{\theta_\text{E}}{T}} - 1}$ and $\gamma = γ_0  \left(\frac{V}{V_0}\right)^q$. The models can also represent a q-compromised equation of states, provided $q = 1$. 
 
 The parameters are defined within the database of [`EoSFit`](http://www.rossangel.com/text_eosfit.htm) and the results are consistent with those of `EoSFit`.
