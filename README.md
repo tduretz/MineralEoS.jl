@@ -42,8 +42,11 @@ julia> (3526.1420454161394, 3.4091933464867834)
 ```
 
 # Governing equations
-The total pressure accounts for mechanical and thermal contributions:\
-$$    P = P_\text{ref}(V, T_\text{0}) + \Delta P_\text{th}(V, T)  $$
+The total pressure accounts for mechanical and thermal contributions:
+
+```math
+P = P_\text{ref}(V, T_\text{0}) + \Delta P_\text{th}(V, T)  
+```
 
 This equation is non-linear and can be solved for $V$ by Newton-Raphson iterations. The latter are greatly facilitated by the use of the automatic differention package [Enzyme.jl](https://github.com/EnzymeAD/Enzyme.jl).  
 
