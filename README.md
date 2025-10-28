@@ -6,7 +6,7 @@ This package is designed to compute the densities and volumes of the following m
 - OlivineFo90
 - Diamond
 
-`MineralEoS.jl` does aim to provide all the features of [`EoSFit`](http://www.rossangel.com/text_eosfit.htm); rather, it focuses on exposing core functionalities, such as density computation, and making them available for codes that rely on automatic differentiation in Julia (e.g. [StagFDTools](https://github.com/tduretz/StagFDTools)).
+`MineralEoS.jl` does not aim to provide all the features of [`EoSFit`](http://www.rossangel.com/text_eosfit.htm); rather, it focuses on exposing core functionalities, such as density computation, and making them available for codes that rely on automatic differentiation in Julia (e.g. [StagFDTools](https://github.com/tduretz/StagFDTools)).
 
 `MineralEoS.jl` was initially developped by T. Duretz & R.J. Angel.
 
