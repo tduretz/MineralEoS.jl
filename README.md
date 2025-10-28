@@ -1,18 +1,18 @@
-# MineralEOS.jl
+# MineralEoS.jl
 
 This package is designed to compute the densities and volumes of the following mineral phases:
 - OlivineFo90
 - Diamond
 
-`MineralEOS.jl` does aim to provide all the features of [`EoSFit`](http://www.rossangel.com/text_eosfit.htm); rather, it focuses on exposing core functionalities, such as density computation, and making them available for codes that rely on automatic differentiation in Julia (e.g. [StagFDTools](https://github.com/tduretz/StagFDTools)).
+`MineralEoS.jl` does aim to provide all the features of [`EoSFit`](http://www.rossangel.com/text_eosfit.htm); rather, it focuses on exposing core functionalities, such as density computation, and making them available for codes that rely on automatic differentiation in Julia (e.g. [StagFDTools](https://github.com/tduretz/StagFDTools)).
 
-`MineralEOS.jl` was initially developped by T. Duretz & R.J. Angel.
+`MineralEoS.jl` was initially developped by T. Duretz & R.J. Angel.
 
 # Quickstart
 
 The following example:
 ```julia
-using MineralEOS.jl
+using MineralEoS
 params = assign_EoS_parameters(:Diamond)
 P      = 5.0e9
 T      = 1100.0
@@ -25,7 +25,7 @@ julia> (3526.1420454161403, 3.4091933464867825)
 
 The following example uses an additional dimensional scaling:
 ```julia
-using MineralEOS.jl
+using MineralEoS
 scales = (σ = 1e9, L = 1e3, t = 1e12, T = 100.0)
 params = assign_EoS_parameters(:Diamond, sc=scales)
 P      = 5.0e9  / scales.σ
