@@ -2,10 +2,6 @@
 
 ![CI](https://github.com/tduretz/MineralEoS.jl/actions/workflows/UnitTests.yml/badge.svg)
 
-<!-- MathJax v3 -->
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-
 This package is designed to compute the densities and volumes of the following mineral phases:
 - OlivineFo90
 - Diamond
@@ -47,9 +43,11 @@ julia> (3526.1420454161394, 3.4091933464867834)
 
 # Governing equations
 The total pressure accounts for mechanical and thermal contributions:
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 $$
     P = P_\text{ref}(V, T_\text{0}) + \Delta P_\text{th}(V, T) 
 $$
+</script>
 This equation is non-linear and can be solved for $V$ by Newton-Raphson iterations. The latter are greatly facilitated by the use of the automatic differention package [Enzyme.jl](https://github.com/EnzymeAD/Enzyme.jl).  
 
 The mechanical part accounts for the Birch-Murnaghan model:
