@@ -1,5 +1,11 @@
 # MineralEoS.jl
 
+![CI](https://github.com/tduretz/MineralEoS.jl/actions/workflows/UnitTests.yml/badge.svg)
+
+<!-- MathJax v3 -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
 This package is designed to compute the densities and volumes of the following mineral phases:
 - OlivineFo90
 - Diamond
