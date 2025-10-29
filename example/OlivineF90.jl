@@ -2,6 +2,9 @@ using MineralEoS, CairoMakie
 import LinearAlgebra: norm
 
 let
+    # Get material parameters from database
+    params = assign_EoS_parameters(:OlivineFo90)
+
     # Olivine Fo90-92: data produced by Prof. Ross Angel using EOSFIT7c
     V_EoSfit = [ 
         43.8924  43.9534  44.0179  44.0849  44.1542  44.2253  44.2982  44.3725  44.4483  44.5256  44.6042  44.6841  44.7654  44.8480  44.9320  45.0173  45.1040
@@ -11,14 +14,12 @@ let
         42.6115  42.6615  42.7143  42.7692  42.8259  42.8841  42.9436  43.0042  43.0659  43.1286  43.1923  43.2569  43.3224  43.3889  43.4563  43.5246  43.5939
         42.3213  42.3691  42.4195  42.4721  42.5262  42.5818  42.6386  42.6965  42.7554  42.8152  42.8759  42.9376  43.0000  43.0634  43.1275  43.1925  43.2584
     ]
+    ρ_EoSfit = params.V0 ./ V_EoSfit * params.ρ0
     nP, nT = size(V_EoSfit)
 
     # Define P-T grid
     P = LinRange(0, 5e9, nP)    # Pa
     T = LinRange(300, 1100, nT) # K
-
-    # Get material parameters from database
-    params = assign_EoS_parameters(:OlivineFo90)
 
     # Allocate density and volume arrays
     V = zeros(nP, nT)
@@ -34,12 +35,13 @@ let
 
     # Check corner values
     @info "Corner values in the P-T space"
-    println( "T =  300 K, P = 0 GPa, V = ",  V_EoSfit[1,1],     " ", round(V[1,1]    , digits=4))
-    println( "T = 1100 K, P = 5 GPa, V = ",  V_EoSfit[end,end], " ", round(V[end,end], digits=4))
+    println( "T =  300 K, P = 0 GPa, V = ",  V_EoSfit[1,1],     " ", round(V[1,1]    , digits=5))
+    println( "T =  300 K, P = 0 GPa, V = ",  round(ρ_EoSfit[1,1], digits=5),     " ", round(ρ[1,1]    , digits=5))
+    println( "T = 1100 K, P = 5 GPa, V = ",  V_EoSfit[end,end], " ", round(V[end,end], digits=5))
+    println( "T = 1100 K, P = 5 GPa, V = ",  round(ρ_EoSfit[end,end], digits=5), " ", round(ρ[end,end], digits=5))
 
      # Visualisation
      function Visualisation()
-        ρ_EoSfit = params.V0 ./ V_EoSfit * params.ρ0
 
         fig = Figure(size=(400, 600))
 
