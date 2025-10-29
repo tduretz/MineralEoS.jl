@@ -37,9 +37,9 @@ let
     # Check corner values
     @info "Corner values in the P-T space"
     println( "T =  300 K, P = 0 GPa, V = ",  V_EoSfit[1,1],     " ", round(V[1,1]    , digits=5))
-    println( "T =  300 K, P = 0 GPa, V = ",  ρ_EoSfit[1,1],     " ", round(ρ[1,1]    , digits=5))
+    println( "T =  300 K, P = 0 GPa, V = ",  round(ρ_EoSfit[1,1], digits=5),     " ", round(ρ[1,1]    , digits=5))
     println( "T = 1100 K, P = 5 GPa, V = ",  V_EoSfit[end,end], " ", round(V[end,end], digits=5))
-    println( "T = 1100 K, P = 5 GPa, V = ",  ρ_EoSfit[end,end], " ", round(ρ[end,end], digits=5))
+    println( "T = 1100 K, P = 5 GPa, V = ",  round(ρ_EoSfit[end,end], digits=5), " ", round(ρ[end,end], digits=5))
 
     # Visualisation
     function Visualisation()
