@@ -56,7 +56,7 @@ function assign_EoS_parameters(mineral; sc=(σ=1.0, L=1.0, t=1.0, T=1.0))
         # EoS parameters
         params = (
             # Birch-Murnaghan
-            ρ0     = 3250,
+            ρ0     = 3250.0,
             V0     = 43.8900,
             K      = 126.302e9,
             ∂K∂P   = 4.54207,
