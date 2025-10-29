@@ -42,13 +42,16 @@ julia> (3526.1420454161394, 3.4091933464867834)
 ```
 
 # Governing equations
+
+## Birch-Murnaghan order 3 - Einstein model
+
 The total pressure accounts for mechanical and thermal contributions:
 
 ```math
 P = P_\text{ref}(V, T_\text{0}) + \Delta P_\text{th}(V, T)  
 ```
 
-This equation is non-linear and can be solved for $V$ by Newton-Raphson iterations. The latter are greatly facilitated by the use of the automatic differention package [Enzyme.jl](https://github.com/EnzymeAD/Enzyme.jl).  
+This equation is non-linear and can be solved for $V$ by Newton-Raphson iterations. The latter are greatly facilitated by the use of the automatic differention package [Enzyme.jl](https://github.com/EnzymeAD/Enzyme.jl). This EoS model is referred to as `BM3`.
 
 The mechanical part accounts for the Birch-Murnaghan model:
 
@@ -68,6 +71,17 @@ where $N$ is a number of atoms, $U(T) = \frac{R \theta_\text{E}}{\exp{\frac{\the
 
 The parameters are defined within the database of [`EoSFit`](http://www.rossangel.com/text_eosfit.htm) and the results are consistent with those of `EoSFit`.
 
+## Exponential model
+
+The exponential model typically used in geodynamic simulation is also available, and follows the expression:
+
+ ```math
+\rho    = \rho_0 \exp{\left( \frac{P}{K} - \alpha T \right)}
+ ```
+
+ where $\rho_0$ is a reference density. This EoS model is referred to as `exp`.
+
+
 # Examples
 
 An example for Diamond is available [here](/example/Diamond.jl) and gives the result:
@@ -77,4 +91,9 @@ A similar example using dimensional scaling is available [here](/example/Diamond
 
 An example for OlivineF90 is available [here](/example/OlivineF90.jl) and gives the result:
 ![](/results/OlivineF90.png)
+
+
+The possibility to switch between `BM3` and `exp` model is show in the example [here](/example/Diamond_exp_BM3.jl). An example of results for diamond, and potential differences between the two approaches can be seen below:
+![](/results/Diamond_exp_BM3.png)
+
 

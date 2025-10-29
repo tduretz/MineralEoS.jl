@@ -34,7 +34,12 @@ let
     end
 
     # Compute error w.r.t. EOSFIT7c
-    @info "Misfit w.r.t EOSFIT7c: $(norm(V_EoSfit .- V))"
+    @info "Misfit w.r.t EOSFIT7c: $(norm(V_EoSfit .- V*(scales.L)^3))"
+
+    # Check corner values
+    @info "Corner values in the P-T space"
+    println( "T =  300 K, P = 0 GPa, V = ",  V_EoSfit[1,1],     " ", round(V[1,1]    *(scales.L)^3, digits=5))
+    println( "T = 1100 K, P = 5 GPa, V = ",  V_EoSfit[end,end], " ", round(V[end,end]*(scales.L)^3, digits=5))
 
     # Visualisation
     function Visualisation()

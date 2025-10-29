@@ -1,4 +1,4 @@
-using MineralEoS
+using MineralEoS, CairoMakie
 import LinearAlgebra: norm
 
 let
@@ -32,23 +32,28 @@ let
     # Compute error w.r.t. EOSFIT7c
     @info "Misfit w.r.t EOSFIT7c: $(norm(V_EoSfit .- V))"
 
+    # Check corner values
+    @info "Corner values in the P-T space"
+    println( "T =  300 K, P = 0 GPa, V = ",  V_EoSfit[1,1],     " ", round(V[1,1]    , digits=4))
+    println( "T = 1100 K, P = 5 GPa, V = ",  V_EoSfit[end,end], " ", round(V[end,end], digits=4))
+
      # Visualisation
      function Visualisation()
         ρ_EoSfit = params.V0 ./ V_EoSfit * params.ρ0
 
         fig = Figure(size=(400, 600))
 
-        ax = Axis(fig[1,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title="MineralEoS.jl - OlivineFo90")
-        hm = heatmap!(ax, T, P./1e9, ρ)
+        ax = Axis(fig[1,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title=L"$$MineralEoS.jl - OlivineFo90")
+        hm = heatmap!(ax, T, P./1e9, ρ')
         Colorbar(fig[1, 2], hm, label = L"$ρ$ (kg/m³)" )
         
-        ax = Axis(fig[2,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title="EOSFIT7c - OlivineFo90")
-        hm = heatmap!(ax, T, P./1e9, ρ_EoSfit)
+        ax = Axis(fig[2,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title=L"$$EOSFIT7c - OlivineFo90")
+        hm = heatmap!(ax, T, P./1e9, ρ_EoSfit')
         Colorbar(fig[2, 2], hm, label = L"$ρ$ (kg/m³)" )
 
-        ax = Axis(fig[3,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title="Difference")
-        hm = heatmap!(ax, T, P./1e9, (ρ.-ρ_EoSfit))
-        Colorbar(fig[3, 2], hm, label = L"$ρ$ (kg/m³)" )
+        ax = Axis(fig[3,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title=L"$$Difference")
+        hm = heatmap!(ax, T, P./1e9, (ρ'.-ρ_EoSfit'))
+        Colorbar(fig[3, 2], hm, label = L"$Δρ$ (kg/m³)" )
         
         display(fig)
     end

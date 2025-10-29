@@ -3,6 +3,9 @@ import LinearAlgebra: norm
 
 #  Diamond
 let
+    # Get material parameters from database
+    params = assign_EoS_parameters(:Diamond)
+
     # Olivine Fo90-92: data produced by Prof. Ross Angel using EOSFIT7c
     V_EoSfit = [ 
         3.42002  3.42061  3.42144  3.42250  3.42377  3.42522  3.42683  3.42857  3.43043  3.43240  3.43446  3.43660  3.43880  3.44107  3.44340  3.44577  3.44819
@@ -12,14 +15,12 @@ let
         3.38988  3.39044  3.39124  3.39225  3.39347  3.39486  3.39639  3.39806  3.39984  3.40173  3.40369  3.40574  3.40784  3.41001  3.41223  3.41451  3.41682
         3.38255  3.38311  3.38389  3.38490  3.38610  3.38747  3.38899  3.39064  3.39241  3.39427  3.39621  3.39823  3.40032  3.40246  3.40466  3.40691  3.40919
     ]
+    ρ_EoSfit = params.V0 ./ V_EoSfit * params.ρ0
     nP, nT = size(V_EoSfit)
 
     # Define P-T grid
     P = LinRange(0, 5e9, nP)    # Pa
     T = LinRange(300, 1100, nT) # K
-
-    # Get material parameters from database
-    params = assign_EoS_parameters(:Diamond)
 
     # Allocate density and volume arrays
     V = zeros(nP, nT)
@@ -33,23 +34,29 @@ let
     # Compute error w.r.t. EOSFIT7c
     @info "Misfit w.r.t EOSFIT7c: $(norm(V_EoSfit .- V))"
 
+    # Check corner values
+    @info "Corner values in the P-T space"
+    println( "T =  300 K, P = 0 GPa, V = ",  V_EoSfit[1,1],     " ", round(V[1,1]    , digits=5))
+    println( "T =  300 K, P = 0 GPa, V = ",  ρ_EoSfit[1,1],     " ", round(ρ[1,1]    , digits=5))
+    println( "T = 1100 K, P = 5 GPa, V = ",  V_EoSfit[end,end], " ", round(V[end,end], digits=5))
+    println( "T = 1100 K, P = 5 GPa, V = ",  ρ_EoSfit[end,end], " ", round(ρ[end,end], digits=5))
+
     # Visualisation
     function Visualisation()
-        ρ_EoSfit = params.V0 ./ V_EoSfit * params.ρ0
 
         fig = Figure(size=(400, 600))
 
-        ax = Axis(fig[1,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title="MineralEoS.jl - Diamond")
-        hm = heatmap!(ax, T, P./1e9, ρ)
+        ax = Axis(fig[1,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title=L"$$MineralEoS.jl - Diamond")
+        hm = heatmap!(ax, T, P./1e9, ρ')
         Colorbar(fig[1, 2], hm, label = L"$ρ$ (kg/m³)" )
         
-        ax = Axis(fig[2,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title="EOSFIT7c - Diamond")
-        hm = heatmap!(ax, T, P./1e9, ρ_EoSfit)
+        ax = Axis(fig[2,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title=L"$$EOSFIT7c - Diamond")
+        hm = heatmap!(ax, T, P./1e9, ρ_EoSfit')
         Colorbar(fig[2, 2], hm, label = L"$ρ$ (kg/m³)" )
 
-        ax = Axis(fig[3,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title="Difference")
-        hm = heatmap!(ax, T, P./1e9, ρ.-ρ_EoSfit)
-        Colorbar(fig[3, 2], hm, label = L"$ρ$ (kg/m³)" )
+        ax = Axis(fig[3,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title=L"$$Difference")
+        hm = heatmap!(ax, T, P./1e9, ρ'.-ρ_EoSfit')
+        Colorbar(fig[3, 2], hm, label = L"$Δρ$ (kg/m³)" )
         
         display(fig)
     end

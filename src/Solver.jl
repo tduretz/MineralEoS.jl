@@ -5,7 +5,7 @@ function residual(V, P, T, materials, phase)
     return P - mechanical_pressure(V, materials, phase) - thermal_pressure(V, T, materials, phase)
 end
 
-function density_volume(P, T, materials, phase; niter = 20, tol = 1e-12)
+function density_volume_BM3(P, T, materials, phase; niter = 20, tol = 1e-12)
 
     P    /= 1e9
     ρ0    = materials.ρ0[phase]
@@ -41,7 +41,7 @@ function residual(V, P, T, materials)
     return P - mechanical_pressure(V, materials) - thermal_pressure(V, T, materials)
 end
 
-function density_volume(P, T, materials; niter = 20, tol = 1e-12)
+function density_volume_BM3(P, T, materials; niter = 20, tol = 1e-12)
 
     P    /= 1e9
     ρ0    = materials.ρ0
@@ -69,10 +69,42 @@ function density_volume(P, T, materials; niter = 20, tol = 1e-12)
     return ρ, V
 end
 
-function density_exponential(T, P, materials, phase)
+function density_volume_exp(P, T, materials, phase)
     ρ0 = materials.ρ0[phase]
     α  = materials.α[phase]
     K  = materials.K[phase]
+    V0 = materials.V0
     ρ  = ρ0* exp(P/K  - α*T)
-    return ρ
+    V  = V0*ρ0/ρ
+    return ρ, V
 end  
+
+function density_volume_exp(P, T, materials)
+    ρ0 = materials.ρ0
+    α  = materials.α
+    K  = materials.K
+    V0 = materials.V0
+    ρ  = ρ0* exp(P/K  - α*T)
+    V  = V0*ρ0/ρ
+    return ρ, V
+end
+
+function density_volume(P, T, materials, phase; EoS=:BM3)
+    if EoS === :BM3
+        return density_volume_BM3(P, T, materials, phase)
+    elseif EoS === :exp
+        return density_volume_exp(P, T, materials, phase)
+    else
+        error("The requested EoS is not implemented (EoS = :BM3 or EoS = :exp)")
+    end
+end
+
+function density_volume(P, T, materials; EoS=:BM3)
+    if EoS === :BM3
+        return density_volume_BM3(P, T, materials)
+    elseif EoS === :exp
+        return density_volume_exp(P, T, materials)
+    else
+        error("The requested EoS is not implemented (EoS = :BM3 or EoS = :exp)")
+    end
+end

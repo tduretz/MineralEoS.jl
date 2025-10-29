@@ -20,47 +20,79 @@
 #     Natom   ::Union{Float64, Missing} = missing 
 # end
 
+function reference_expansivity(p)
+    NA = 6.02214076e23 # Avogadro
+    kB = 1.380649e-23
+    u0 = p.θE/p.T0
+    return 3*p.γ0*p.Natom*kB*u0^2*(exp(u0)/(exp(u0) - 1)^2) / (p.K*p.V0*1e-6/NA)
+end
+
 function assign_EoS_parameters(mineral; sc=(σ=1.0, L=1.0, t=1.0, T=1.0))
 
     m   = sc.σ * sc.L * sc.t^2.0
     J   = m * sc.L^2.0 / sc.t^2.0
 
-    if mineral===:Diamond 
+    if mineral===:Diamond
+        # EoS parameters
         params = (
-            R      = 8.31415  / (J/sc.T),
-            #---------------#
-            ρ0     = 3515.0   / (m/sc.L^3),
-            V0     = 3.42     / sc.L^3,
-            K      = 444.0e9  / sc.σ ,
+            # Birch-Murnaghan
+            ρ0     = 3515.0,
+            V0     = 3.42,      
+            K      = 444.0e9,   
             ∂K∂P   = 4.0,
-            ∂2K∂P2 = -0.0088  / (1/sc.σ),
+            ∂2K∂P2 = -0.0088, 
             #---------------#
-            θE     = 1500.0   / sc.T,
+            θE     = 1500.0,   
             γ0     = 0.9726,
-            T0     = 298.15   /  sc.T,
+            T0     = 298.15, 
             q      = 1.0,
             Natom  = 1.0,
+            α      = 2.6720e-6
         )
+        # Compute reference expansivity 
+        α0     = reference_expansivity(params)
+
     elseif mineral===:OlivineFo90
+        # EoS parameters
         params = (
-            R      = 8.31415  / (J/sc.T),
-
             # Birch-Murnaghan
-            ρ0     = 3250     / (m/sc.L^3),
-            V0     = 43.8900  / sc.L^3,
-            K      = 126.30e9 / sc.σ ,
-            ∂K∂P   = 4.54,
-            ∂2K∂P2 = -0.0374  / (1/sc.σ),
-
+            ρ0     = 3250,
+            V0     = 43.8900,
+            K      = 126.302e9,
+            ∂K∂P   = 4.54207,
+            ∂2K∂P2 = -0.0374,
             # Einstein's model for Pthermal
-            θE     = 471.0    /  sc.T,
+            θE     = 471.0,
             γ0     = 1.044,
-            T0     = 298.15   /  sc.T,
+            T0     = 298.00,
             q      = 1.88,
             Natom  = 7.0,
+            α      = 1e-6, # dummy 
         )
+        # Compute reference expansivity 
+        α0     = reference_expansivity(params)
+
     else
         error("Mineral phase not yet implemented!")
     end
-    return params
+
+    # Apply dimensional scaling
+    params_scaled = (
+        # Gas constant
+        R      = 8.31415       / (J/sc.T),
+        # Birch-Murnaghan
+        ρ0     = params.ρ0     / (m/sc.L^3),
+        V0     = params.V0     / sc.L^3,
+        K      = params.K      / sc.σ ,
+        ∂K∂P   = params.∂K∂P,
+        ∂2K∂P2 = params.∂2K∂P2 / (1/sc.σ),
+        # Einstein's model for Pthermal
+        θE     = params.θE     /  sc.T,
+        γ0     = params.γ0,
+        T0     = params.T0     /  sc.T,
+        q      = params.q,
+        Natom  = params.Natom,
+        α      = α0            / (1/sc.T)
+    )
+    return params_scaled
 end
