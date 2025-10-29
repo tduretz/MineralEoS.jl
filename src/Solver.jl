@@ -31,7 +31,7 @@ function density_volume_BM3(P, T, materials, phase; niter = 20, tol = 1e-12)
         # @show r, J.derivs[1]
         # Newton update
         V -= r/J.derivs[1]
-        V  = abs(V)
+    end
     ρ = ρ0*V0/V
     return ρ, V
 end
@@ -64,7 +64,6 @@ function density_volume_BM3(P, T, materials; niter = 20, tol = 1e-12)
         # @show r, J.derivs[1]
         # Newton update
         V -= r/J.derivs[1]
-        V  = abs(V)
     end
     ρ = ρ0*V0/V
     return ρ, V
