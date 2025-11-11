@@ -7,16 +7,15 @@ using MineralEoS
     P = 0.0e9
     T = 300.0
     ρ, V = density_volume(P, T, params)
-    @test V ≈ 3.420017095603012
-    @test ρ ≈ 3514.982429606956
+    @test V ≈ 3.4200170958592153
+    @test ρ ≈ 3514.982429343638
     # High T, high P
     P = 5.0e9
     T = 1100.0
     ρ, V = density_volume(P, T, params)
-    @test V ≈ 3.4091933464867825
-    @test ρ ≈ 3526.1420454161403
+    @test V ≈ 3.409128737163187
+    @test ρ ≈ 3526.2088723593333
 end
-
 
 @testset "Diamond - exp    " begin
     params = assign_EoS_parameters(:Diamond)
@@ -40,14 +39,14 @@ end
     P = 0.0e9
     T = 300.0
     ρ, V = density_volume(P, T, params)
-    @test V ≈ 43.89235734686477
-    @test ρ ≈ 3249.8254507669762
+    @test V ≈ 43.89235739941078
+    @test ρ ≈ 3249.8254468764276
     # High T, high P
     P = 5.0e9
     T = 1100.0
     ρ, V = density_volume(P, T, params)
-    @test V ≈ 43.26002004420757
-    @test ρ ≈ 3297.328569294076
+    @test V ≈ 43.258393151067864
+    @test ρ ≈ 3297.4525776272108
 end
 
 @testset "OlivineFo90 - exp" begin
