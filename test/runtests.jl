@@ -24,14 +24,14 @@ end
     P = 0.0e9
     T = 300.0
     ρ, V = density_volume(P, T, params; EoS=:exp)
-    @test V ≈ 3.422747016882794
-    @test ρ ≈ 3512.178943025764
+    @test V ≈ 3.420016933179745
+    @test ρ ≈ 3514.9825965403193
     # High T, high P
     P = 5.0e9
     T = 1100.0
     ρ, V = density_volume(P, T, params; EoS=:exp)
-    @test V ≈ 3.391672804877551
-    @test ρ ≈ 3544.357221814621
+    @test V ≈ 3.3889675068800655
+    @test ρ ≈ 3547.186562159455
 end
 
 @testset "OlivineFo90 - BM3" begin
@@ -56,12 +56,12 @@ end
     P = 0.0e9
     T = 300.0
     ρ, V = density_volume(P, T, params; EoS=:exp)
-    @test V ≈ 44.24449872017864
-    @test ρ ≈ 3223.9601334876206
+    @test V ≈ 43.89235389473845
+    @test ρ ≈ 3249.8257063652063
     # High T, high P
     P = 5.0e9
     T = 1100.0
     ρ, V = density_volume(P, T, params; EoS=:exp)
-    @test V ≈ 43.44933234517466
-    @test ρ ≈ 3282.9618385572594
+    @test V ≈ 43.10351630031558
+    @test ρ ≈ 3309.3007773696563
 end
