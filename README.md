@@ -20,7 +20,7 @@ P      = 5.0e9
 T      = 1100.0
 ρ, V   = density_volume(P, T, params)
 ```
-should return the density (kg/m^3) and the volume (cm^3):
+should return the density (kg/m<sup>3</sup>) and the volume (cm<sup>3</sup>):
 ```julia-repl
 julia> (3526.1420454161403, 3.4091933464867825)
 ```
@@ -36,7 +36,7 @@ T      = 1100.0 / scales.T
 ρc     = scales.σ * scales.L * scales.t^2.0 / scales.L^3 
 (ρ * ρc, V * scales.L^3)
 ```
-should also return the density (kg/m^3) and the volume (cm^3):
+should also return the density (kg/m<sup>3</sup>) and the volume (cm<sup>3</sup>):
 ```julia-repl
 julia> (3526.1420454161394, 3.4091933464867834)
 ```
@@ -93,7 +93,12 @@ An example for OlivineF90 is available [here](/example/OlivineF90.jl) and gives 
 ![](/results/OlivineF90.png)
 
 
-The possibility to switch between `BM3` and `exp` model is show in the example [here](/example/Diamond_exp_BM3.jl). An example of results for diamond, and potential differences between the two approaches can be seen below:
+The possibility to switch between `BM3` and `exp` model is shown in the example [here](/example/Diamond_exp_BM3.jl) and [there](/example/OlivineF90_exp_BM3.jl). An example of results for diamond, and potential differences between the two approaches can be seen below.
+
+The diamond case:
 ![](/results/Diamond_exp_BM3.png)
+This example clearly highlights the fact that thermal effects are not accurately captured by the exponential model. The resulting density diffences between the two modes reaches 20 kg/m<sup>3</sup> at high temperature. 
 
-
+The olivine case:
+![](/results/OlivineF90_exp_BM3.png)
+In this case, the density differences are lower. As in the case of the diamond, the exponential models produces a density excess of about 20 kg/m<sup>3</sup> at high temperature. With increasing pressure, this differences vanishes.

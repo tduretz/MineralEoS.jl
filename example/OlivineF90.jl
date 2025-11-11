@@ -40,8 +40,11 @@ let
     println( "T = 1100 K, P = 5 GPa, V = ",  V_EoSfit[end,end], " ", round(V[end,end], digits=5))
     println( "T = 1100 K, P = 5 GPa, V = ",  round(ρ_EoSfit[end,end], digits=5), " ", round(ρ[end,end], digits=5))
 
-     # Visualisation
-     function Visualisation()
+    # Show parameters
+    display(params)
+
+    # Visualisation
+    function Visualisation()
 
         fig = Figure(size=(400, 600))
 

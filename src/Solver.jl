@@ -73,8 +73,9 @@ function density_volume_exp(P, T, materials, phase)
     ρ0 = materials.ρ0[phase]
     α  = materials.α[phase]
     K  = materials.K[phase]
-    V0 = materials.V0
-    ρ  = ρ0* exp(P/K  - α*T)
+    T0 = materials.T0[phase]
+    V0 = materials.V0[phase]
+    ρ  = ρ0* exp(P/K  - α*(T-T0))
     V  = V0*ρ0/ρ
     return ρ, V
 end  
@@ -84,7 +85,8 @@ function density_volume_exp(P, T, materials)
     α  = materials.α
     K  = materials.K
     V0 = materials.V0
-    ρ  = ρ0* exp(P/K  - α*T)
+    T0 = materials.T0
+    ρ  = ρ0* exp(P/K  - α*(T-T0))
     V  = V0*ρ0/ρ
     return ρ, V
 end
