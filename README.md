@@ -67,7 +67,7 @@ The thermal is based on the Einstein model:
 \Delta P_\text{th} = 3 N \frac{γ}{V}\left(U(T) - U(T_\text{0})\right)
 ```
 
-where $N$ is a number of atoms, $U(T) = \frac{R \theta_\text{E}}{\exp{\frac{\theta_\text{E}}{T}} - 1}$,  $\gamma = γ_0  \left(\frac{V}{V_0}\right)^q$ and $\theta_\text{E} = \left. \theta_\text{E} \right._0 \left(\frac{V}{V_0} \right)^{-\gamma}$. The models can also represent a q-compromised equation of states, provided $q = 1$ and $\theta_\text{E} = \left. \theta_\text{E} \right._0$. 
+where $N$ is a number of atoms, $U(T) = \frac{R \theta_\text{E}}{\exp{\frac{\theta_\text{E}}{T}} - 1}$,  $\gamma = γ_0  \left(\frac{V}{V_0}\right)^q$ and $\theta_\text{E} = \theta_\text{E0}\left(\frac{V}{V_0} \right)^{-\gamma}$. The models can also represent a q-compromised equation of states, provided $q = 1$ and $\theta_\text{E} = \theta_\text{E0}$. 
 
 The parameters are defined within the database of [`EoSFit`](http://www.rossangel.com/text_eosfit.htm) and the results are consistent with those of `EoSFit`.
 
@@ -84,6 +84,8 @@ The exponential model typically used in geodynamic simulation is also available,
 
 # Examples
 
+## Accuracy
+
 An example for Diamond is available [here](/example/Diamond.jl) and gives the result:
 ![](/results/Diamond.png)
 
@@ -92,13 +94,16 @@ A similar example using dimensional scaling is available [here](/example/Diamond
 An example for OlivineF90 is available [here](/example/OlivineF90.jl) and gives the result:
 ![](/results/OlivineF90.png)
 
+## Complex (`:BM3`) versus simplified (`:exp`) EoS
 
 The possibility to switch between `BM3` and `exp` model is shown in the example [here](/example/Diamond_exp_BM3.jl) and [there](/example/OlivineF90_exp_BM3.jl). An example of results for diamond, and potential differences between the two approaches can be seen below.
 
 The diamond case:
 ![](/results/Diamond_exp_BM3.png)
+
 This example clearly highlights the fact that thermal effects are not accurately captured by the exponential model. The resulting density diffences between the two modes reaches 20 kg/m<sup>3</sup> at high temperature. 
 
 The olivine case:
 ![](/results/OlivineF90_exp_BM3.png)
+
 In this case, the density differences are lower. As in the case of the diamond, the exponential models produces a density excess of about 20 kg/m<sup>3</sup> at high temperature. With increasing pressure, this differences vanishes.
