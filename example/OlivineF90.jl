@@ -46,20 +46,36 @@ let
     # Visualisation
     function Visualisation()
 
-        fig = Figure(size=(400, 600))
+        fig = Figure(size=(600, 600))
 
         ax = Axis(fig[1,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title=L"$$MineralEoS.jl - OlivineFo90")
-        hm = heatmap!(ax, T, P./1e9, ρ')
-        Colorbar(fig[1, 2], hm, label = L"$ρ$ (kg/m³)" )
+        hm = heatmap!(ax, T, P./1e9, V')
+        Colorbar(fig[1, 2], hm, label = L"$V$ (cm³)" )
         
         ax = Axis(fig[2,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title=L"$$EOSFIT7c - OlivineFo90")
-        hm = heatmap!(ax, T, P./1e9, ρ_EoSfit')
-        Colorbar(fig[2, 2], hm, label = L"$ρ$ (kg/m³)" )
+        hm = heatmap!(ax, T, P./1e9, V_EoSfit')
+        Colorbar(fig[2, 2], hm, label = L"$V$ (cm³)" )
 
-        ax = Axis(fig[3,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title=L"$$Difference")
-        hm = heatmap!(ax, T, P./1e9, (ρ'.-ρ_EoSfit'))
-        Colorbar(fig[3, 2], hm, label = L"$Δρ$ (kg/m³)" )
+        ax = Axis(fig[3,1], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title=L"$$Absolute difference ($\log_{10}$)")
+        hm = heatmap!(ax, T, P./1e9, log10.(abs.(V'.-V_EoSfit')))
+        Colorbar(fig[3, 2], hm, label = L"$ΔV$ (cm³)" )
         
+        display(fig)
+
+        ######################
+
+        ax = Axis(fig[1,3], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title=L"$$MineralEoS.jl - OlivineFo90")
+        hm = heatmap!(ax, T, P./1e9, ρ')
+        Colorbar(fig[1, 4], hm, label = L"$ρ$ (kg/m³)" )
+        
+        ax = Axis(fig[2,3], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title=L"$$EOSFIT7c - OlivineFo90")
+        hm = heatmap!(ax, T, P./1e9, ρ_EoSfit')
+        Colorbar(fig[2, 4], hm, label = L"$ρ$ (kg/m³)" )
+
+        ax = Axis(fig[3,3], xlabel=L"$T$ (K)", ylabel=L"$P$ (GPa)", title=L"$$Difference")
+        hm = heatmap!(ax, T, P./1e9, (ρ'.-ρ_EoSfit'))
+        Colorbar(fig[3, 4], hm, label = L"$Δρ$ (kg/m³)" )
+
         display(fig)
     end
     with_theme(Visualisation, theme_latexfonts())

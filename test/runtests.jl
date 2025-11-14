@@ -13,8 +13,8 @@ using MineralEoS
     P = 5.0e9
     T = 1100.0
     ρ, V = density_volume(P, T, params)
-    @test V ≈ 3.409128737163187
-    @test ρ ≈ 3526.2088723593333
+    @test V ≈ 3.4091933464867825
+    @test ρ ≈ 3526.1420454161403
 end
 
 @testset "Diamond - exp    " begin

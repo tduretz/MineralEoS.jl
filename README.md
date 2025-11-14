@@ -67,7 +67,7 @@ The thermal is based on the Einstein model:
 \Delta P_\text{th} = 3 N \frac{γ}{V}\left(U(T) - U(T_\text{0})\right)
 ```
 
-where $N$ is a number of atoms, $U(T) = \frac{R \theta_\text{E}}{\exp{\frac{\theta_\text{E}}{T}} - 1}$ and $\gamma = γ_0  \left(\frac{V}{V_0}\right)^q$. The models can also represent a q-compromised equation of states, provided $q = 1$. 
+where $N$ is a number of atoms, $U(T) = \frac{R \theta_\text{E}}{\exp{\frac{\theta_\text{E}}{T}} - 1}$,  $\gamma = γ_0  \left(\frac{V}{V_0}\right)^q$ and $\theta_\text{E} = \left. \theta_\text{E} \right._0 \left(\frac{V}{V_0} \right)^{-\gamma}$. The models can also represent a q-compromised equation of states, provided $q = 1$ and $\theta_\text{E} = \left. \theta_\text{E} \right._0$. 
 
 The parameters are defined within the database of [`EoSFit`](http://www.rossangel.com/text_eosfit.htm) and the results are consistent with those of `EoSFit`.
 

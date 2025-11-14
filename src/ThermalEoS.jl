@@ -11,7 +11,11 @@ function thermal_pressure(V, T, materials, phase)
     Natom = materials.Natom[phase]
     R     = materials.R
     γ     = γ0 * ((V)/V0)^q
-    θE    = θE0*((V)/V0)^(-γ)
+    if materials.qcompromised[phase]
+        θE    = θE0
+    else
+        θE    = θE0*((V)/V0)^(-γ)
+    end
     sca   = 1e-3 # 1e6/1e9 : (m3 -> cm3) / (GPa -> Pa) 
     P     = sca * 3*Natom*γ/V*(U_Einstein(T, θE, R) - U_Einstein(T0, θE, R))
     return P  
@@ -26,7 +30,11 @@ function thermal_pressure(V, T, materials)
     Natom = materials.Natom
     R     = materials.R
     γ     = γ0 * ((V)/V0)^q
-    θE    = θE0*((V)/V0)^(-γ)
+    if materials.qcompromised
+        θE    = θE0
+    else
+        θE    = θE0*((V)/V0)^(-γ)
+    end
     sca   = 1e-3 # 1e6/1e9 : (m3 -> cm3) / (GPa -> Pa) 
     P     = sca * 3*Natom*γ/V*(U_Einstein(T, θE, R) - U_Einstein(T0, θE, R))
     return P  

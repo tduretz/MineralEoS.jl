@@ -47,7 +47,8 @@ function assign_EoS_parameters(mineral; sc=(σ=1.0, L=1.0, t=1.0, T=1.0))
             T0     = 298.15, 
             q      = 1.0,
             Natom  = 1.0,
-            α      = 2.6720e-6
+            α      = 2.6720e-6,
+            qcompromised = true,
         )
         # Compute reference expansivity 
         α0     = reference_expansivity(params)
@@ -68,6 +69,7 @@ function assign_EoS_parameters(mineral; sc=(σ=1.0, L=1.0, t=1.0, T=1.0))
             q      = 1.88,
             Natom  = 7.0,
             α      = 1e-6, # dummy 
+            qcompromised = false,
         )
         # Compute reference expansivity 
         α0     = reference_expansivity(params)
@@ -92,7 +94,8 @@ function assign_EoS_parameters(mineral; sc=(σ=1.0, L=1.0, t=1.0, T=1.0))
         T0     = params.T0     /  sc.T,
         q      = params.q,
         Natom  = params.Natom,
-        α      = α0            / (1/sc.T)
+        α      = α0            / (1/sc.T),
+        qcompromised =  params.qcompromised,
     )
     return params_scaled
 end

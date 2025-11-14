@@ -60,4 +60,18 @@ let
     x = density_volume(0.0/scales.σ, 298.0/scales.T, params; EoS=:BM3)
     x[2]*scales.L^3
 
+    @info "Room condition volume (cm³)"
+    x = density_volume(0.0/scales.σ, 298.0/scales.T, params; EoS=:exp)
+    @show x[2]*scales.L^3
+
+    x = density_volume(0.0/scales.σ, 298.0/scales.T, params; EoS=:BM3)
+    @show x[2]*scales.L^3
+
+    @info "0 GPa, 1000 K  volume (cm³)"
+    x = density_volume(0.0/scales.σ, 1000/scales.T, params; EoS=:exp)
+    @show x[2]*scales.L^3
+
+    x = density_volume(0.0/scales.σ, 1000/scales.T, params; EoS=:BM3)
+    @show x[2]*scales.L^3
+
 end
