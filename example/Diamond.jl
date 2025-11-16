@@ -28,7 +28,7 @@ let
 
     # Loop over P-T grid
     for j in eachindex(T), i in eachindex(P)
-        ρ[i,j], V[i,j] = density_volume(P[i], T[j], params)
+        ρ[i,j], V[i,j] = density_volume(Val(:complex), P[i], T[j], params)
     end
 
     # Compute error w.r.t. EOSFIT7c

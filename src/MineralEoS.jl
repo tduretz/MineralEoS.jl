@@ -7,7 +7,7 @@ include("MechanicalEoS.jl")
 export mechanical_pressure
 
 include("ThermalEoS.jl")
-export thermal_pressure
+export thermal_pressure, I3_series
 
 include("Solver.jl")
 export density_volume
