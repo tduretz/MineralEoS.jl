@@ -153,6 +153,6 @@ The results of the complex EoS are compared to the simple exponential models and
 
 ![](/results/OlivineF90_demo.png)
 
-The results for `:BM3` and `:BM4` because of the currently defined olivine parameter (implied values). There is no notable difference between Einstein and Debye thermal pressure models.
+The results for `:BM3` and `:BM4` are similar because of the currently defined olivine parameter (implied values). There is no notable difference between Einstein and Debye thermal pressure models.
 
 
