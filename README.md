@@ -103,7 +103,7 @@ $U(T) = \frac{R \theta_\text{E}}{\exp{\frac{\theta_\text{E}}{T}} - 1}$
 The Einstein temperature is expressed as $\theta_\text{E} = \theta_\text{E0}\left(\frac{V}{V_0} \right)^{-\gamma}$.
 
 The Debye model (`thermal_model = :Debye`) is based on the following expression for the vibrational energy:
-$U(T) = R T D\left(\frac{\theta_\text{D}}{T}\right)$ where $D(x)$ is the Debye function. The Debye temperature is expressed as $\theta_\text{D} = \theta_\text{D0}  \exp{\left(- (\frac{\gamma_0}{q})  \left[\left(\frac{V}{V_0}\right)^q - 1.0\right]\right)}$
+$U(T) = R T D\left(\frac{\theta_\text{D}}{T}\right)$ where $D(x)$ is the 3rd Debye function. The Debye temperature is expressed as $\theta_\text{D} = \theta_\text{D0}  \exp{\left(- (\frac{\gamma_0}{q})  \left[\left(\frac{V}{V_0}\right)^q - 1.0\right]\right)}$
 Note that the Debye model requires the evaluation of an integral, which is performed using a power series summation.
 
 The parameters are defined within the database of [`EoSFit`](http://www.rossangel.com/text_eosfit.htm) and the results are consistent with those of `EoSFit (see below).
