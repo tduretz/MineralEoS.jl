@@ -20,7 +20,7 @@ include("DataEoS.jl")
 export assign_EoS_parameters
 
 include("MechanicalEoS.jl")
-export mechanical_pressure
+export mechanical_pressure, mechanical_pressure_no_opt
 
 include("ThermalEoS.jl")
 export thermal_pressure, I3_series
