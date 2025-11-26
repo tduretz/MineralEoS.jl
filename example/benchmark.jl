@@ -3,6 +3,7 @@ using MineralEoS, Chairmarks
 let 
     params = assign_EoS_parameters(:OlivineFo90)
     V      = 1e-6
+    T      = 1000.
 
     # Mechanical pressure 
 
@@ -34,6 +35,27 @@ let
     @show check
 
     # Thermal pressure 
-    # ...
+    
+    @info "Einstein"
+    a = @b thermal_pressure_no_opt($(Einstein(), V, T, params)...)
+    @show a
+    a = @b thermal_pressure($(Einstein(), V, T, params)...)
+    @show a
+
+    check = thermal_pressure_no_opt((Einstein(), V, T, params)...) ≈ thermal_pressure((Einstein(), V, T, params)...)
+    @show check
+
+    @info "Debye"
+    a = @b thermal_pressure_no_opt($(Debye(), V, T, params)...)
+    @show a
+    a = @b thermal_pressure($(Debye(), V, T, params)...)
+    @show a
+
+    check = thermal_pressure_no_opt((Debye(), V, T, params)...) ≈ thermal_pressure((Debye(), V, T, params)...)
+    @show check
+    if check === false
+        @show thermal_pressure_no_opt((Debye(), V, T, params)...)
+        @show thermal_pressure((Debye(), V, T, params)...)
+    end
 
 end
