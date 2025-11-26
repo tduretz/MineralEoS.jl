@@ -12,13 +12,14 @@ let
     T = LinRange(300/scales.T, 1100/scales.T, nT) # K
 
     # Get material parameters from database
+    EoS    = ComplexEoS()
     params = assign_EoS_parameters(:OlivineFo90; sc=scales)
 
     # Thermal models
-    thermal_models = (:Einstein, :Debye)
+    thermal_models = (Einstein(), Debye())
 
     # Mechanical models
-    mechanical_models = (:BM2, :BM3, :BM4)
+    mechanical_models = (BM2(), BM3(), BM4())
 
     # Allocate density and volume arrays
 
@@ -46,27 +47,27 @@ let
     for j in eachindex(T), i in eachindex(P)
 
         # Einstein 
-        ρ_exp[i,j], V_exp[i,j] = density_volume(Val(:simple), P[i], T[j], params)
+        ρ_exp[i,j], V_exp[i,j] = density_volume(SimpleEoS(), P[i], T[j], params)
 
         # Einstein 
-        opts = (thermal_model=:Einstein, mechanical_model=:BM2)
-        ρ_BM2E[i,j], V_BM2E[i,j] = density_volume(Val(:complex), P[i], T[j], params; options=opts)
+        opts = (thermal_model=Einstein(), mechanical_model=BM2())
+        ρ_BM2E[i,j], V_BM2E[i,j] = density_volume(EoS, P[i], T[j], params; options=opts)
 
-        opts = (thermal_model=:Einstein, mechanical_model=:BM3)
-        ρ_BM3E[i,j], V_BM3E[i,j] = density_volume(Val(:complex), P[i], T[j], params; options=opts)
+        opts = (thermal_model=Einstein(), mechanical_model=BM3())
+        ρ_BM3E[i,j], V_BM3E[i,j] = density_volume(EoS, P[i], T[j], params; options=opts)
 
-        opts = (thermal_model=:Einstein, mechanical_model=:BM4)
-        ρ_BM4E[i,j], V_BM4E[i,j] = density_volume(Val(:complex), P[i], T[j], params; options=opts)
+        opts = (thermal_model=Einstein(), mechanical_model=BM4())
+        ρ_BM4E[i,j], V_BM4E[i,j] = density_volume(EoS, P[i], T[j], params; options=opts)
 
         # Mie-Grüneisen-Debye 
-        opts = (thermal_model=:Debye, mechanical_model=:BM2)
-        ρ_BM2MGD[i,j], V_BM2MGD[i,j] = density_volume(Val(:complex), P[i], T[j], params; options=opts)
+        opts = (thermal_model=Debye(), mechanical_model=BM2())
+        ρ_BM2MGD[i,j], V_BM2MGD[i,j] = density_volume(EoS, P[i], T[j], params; options=opts)
 
-        opts = (thermal_model=:Debye, mechanical_model=:BM3)
-        ρ_BM3MGD[i,j], V_BM3MGD[i,j] = density_volume(Val(:complex), P[i], T[j], params; options=opts)
+        opts = (thermal_model=Debye(), mechanical_model=BM3())
+        ρ_BM3MGD[i,j], V_BM3MGD[i,j] = density_volume(EoS, P[i], T[j], params; options=opts)
 
-        opts = (thermal_model=:Debye, mechanical_model=:BM4)
-        ρ_BM4MGD[i,j], V_BM4MGD[i,j] = density_volume(Val(:complex), P[i], T[j], params; options=opts)
+        opts = (thermal_model=Debye(), mechanical_model=BM4())
+        ρ_BM4MGD[i,j], V_BM4MGD[i,j] = density_volume(EoS, P[i], T[j], params; options=opts)
     end
 
     # Visualisation

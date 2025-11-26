@@ -2,11 +2,11 @@ using Enzyme
 
 @inline function residual(V, P, T, materials, options)
     # @show  thermal_pressure(Val(options.thermal_model), V, T, materials)
-    return P - mechanical_pressure(Val(options.mechanical_model), V, materials) - thermal_pressure(Val(options.thermal_model), V, T, materials)
+    return P - mechanical_pressure(options.mechanical_model, V, materials) - thermal_pressure(options.thermal_model, V, T, materials)
 end
 
-@inline function density_volume(::Val{:complex}, P, T, materials;   
-    options = (thermal_model=:Einstein, mechanical_model=:BM3),
+@inline function density_volume(EoS::ComplexEoS, P, T, materials;   
+    options = (thermal_model=Einstein(), mechanical_model=BM3()),
     niter = 20, tol = 1e-12)
 
     P    /= 1e9
@@ -16,6 +16,7 @@ end
 
     # Initial guess
     V     = V0
+    V̄     = 1.0
     r0    = 1.0
     iter  = 0
     err   = 1.0
@@ -23,19 +24,18 @@ end
     while (iter<niter && err>tol)
         iter += 1
         # Evaluate the function and the Jacobian: r, ∂r∂V
-        J = Enzyme.jacobian(Enzyme.ForwardWithPrimal, residual, V, Const(P), Const(T), Const(materials), Const(options) )  
-        r = J.val[1]
+        J = Enzyme.autodiff(Enzyme.ForwardWithPrimal, residual, Duplicated(V, V̄), Const(P), Const(T), Const(materials), Const(options) )  
+        r = J[2]
         if iter==1 r0 = r end
         err         = abs(r/r0)
-        # @show r, J.derivs[1]
         # Newton update
-        V -= r/J.derivs[1]
+        V -= r/J[1]
     end
     ρ = ρ0*V0/V
     return ρ, V
 end
 
-@inline function density_volume(::Val{:simple}, P, T, materials)
+@inline function density_volume(EoS::SimpleEoS, P, T, materials)
     ρ0 = materials.ρ0
     α  = materials.α
     K  = materials.K

@@ -1,4 +1,4 @@
-@inline function mechanical_pressure(::Val{:BM4}, V, materials)
+@inline function mechanical_pressure(model::BM4, V, materials)
     # Birch-Murnaghan EOS
     V0  = materials.V0
     K0  = materials.K/1e9
@@ -10,7 +10,7 @@
     return P
 end
 
-@inline function mechanical_pressure(::Val{:BM3}, V, materials)
+@inline function mechanical_pressure(model::BM3, V, materials)
     # Birch-Murnaghan EOS
     V0 = materials.V0
     K0 = materials.K/1e9
@@ -21,7 +21,7 @@ end
     return P
 end
 
-@inline function mechanical_pressure(::Val{:BM2}, V, materials)
+@inline function mechanical_pressure(model::BM2, V, materials)
     # Birch-Murnaghan EOS
     V0 = materials.V0
     K0 = materials.K/1e9

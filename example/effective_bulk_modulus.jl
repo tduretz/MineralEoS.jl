@@ -1,9 +1,8 @@
-using MineralEoS, Enzyme
+using MineralEoS
 
 let 
     # Define characteristic units
     scales = (L=1e0, t=1e-2, σ=1e9, T=1)
-    # scales = (L=1e0, t=1e-0, σ=1e0, T=1)
 
     ρc     = scales.σ * scales.L * scales.t^2.0 / scales.L^3
 
@@ -17,7 +16,7 @@ let
     # 1. Let's compute the effective bulk modulus value for the simple EoS 
 
     # Set EoS type (:complex or :simple)
-    EoS  = Val(:simple)
+    EoS  = SimpleEoS()
 
     # Compute density
     ρ, V = density_volume(EoS, P, T, params)
@@ -25,7 +24,7 @@ let
     # Compare K with ∂ρ∂P
     dP = 1.0 
 
-    @time s    = Enzyme.autodiff( Enzyme.Forward, (EoS, P, T, params) -> density_volume(EoS, P, T, params), Const(EoS), Duplicated(P, dP), Const(T), Const(params))
+    s    = compute_density_derivative((EoS, P, dP, T, params)...)
     ∂ρ∂P = s[1][1]
     Keff = ρ / ∂ρ∂P
 
@@ -35,10 +34,10 @@ let
     # 2. Let's compute the effective bulk modulus value for the complex EoS 
 
     # Set EoS type (:complex or :simple)
-    EoS  = Val(:complex)
+    EoS  = ComplexEoS()
 
     # Fine tuning
-    opts = (thermal_model=:Debye, mechanical_model=:BM2)
+    opts = (thermal_model=Debye(), mechanical_model=BM2())
 
     # Compute density
     ρ, V = density_volume(EoS, P, T, params; options=opts)
@@ -46,7 +45,7 @@ let
     # Compare K with ∂ρ∂P
     dP = 1.0 
 
-    @time  s    = Enzyme.autodiff( Enzyme.Forward, (EoS, P, T, params) -> density_volume(EoS, P, T, params; options=opts), Const(EoS), Duplicated(P, dP), Const(T), Const(params))
+    s    = compute_density_derivative((EoS, P, dP, T, params, opts)...)
     ∂ρ∂P = s[1][1]
     Keff = ρ / ∂ρ∂P
 

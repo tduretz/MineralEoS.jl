@@ -22,12 +22,12 @@ let
 
     # Loop over P-T grid and compute density using the BM3 model
     for j in eachindex(T), i in eachindex(P)
-        ρ_BM3[i,j], V_BM3[i,j] = density_volume(Val(:complex), P[i], T[j], params)
+        ρ_BM3[i,j], V_BM3[i,j] = density_volume(ComplexEoS(), P[i], T[j], params)
     end
 
     # Loop over P-T grid and compute density using the BM3 model
     for j in eachindex(T), i in eachindex(P)
-        ρ_exp[i,j], V_exp[i,j] = density_volume(Val(:simple), P[i], T[j], params)
+        ρ_exp[i,j], V_exp[i,j] = density_volume(SimpleEoS(), P[i], T[j], params)
     end
 
     # Visualisation
@@ -53,17 +53,17 @@ let
     with_theme(Visualisation, theme_latexfonts())
 
     @info "Room condition volume (cm³)"
-    x = density_volume(Val(:simple), 0.0/scales.σ, 298.0/scales.T, params)
+    x = density_volume(SimpleEoS(), 0.0/scales.σ, 298.0/scales.T, params)
     @show x[2]*scales.L^3
 
-    x = density_volume(Val(:complex), 0.0/scales.σ, 298.0/scales.T, params)
+    x = density_volume(ComplexEoS(), 0.0/scales.σ, 298.0/scales.T, params)
     @show x[2]*scales.L^3
 
     @info "0 GPa, 1000 K  volume (cm³)"
-    x = density_volume(Val(:simple), 0.0/scales.σ, 1000/scales.T, params)
+    x = density_volume(SimpleEoS(), 0.0/scales.σ, 1000/scales.T, params)
     @show x[2]*scales.L^3
 
-    x = density_volume(Val(:complex), 0.0/scales.σ, 1000/scales.T, params)
+    x = density_volume(ComplexEoS(), 0.0/scales.σ, 1000/scales.T, params)
     @show x[2]*scales.L^3
 
 end

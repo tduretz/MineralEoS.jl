@@ -15,24 +15,26 @@ This package is designed to compute the densities and volumes of the following m
 The following example:
 ```julia
 using MineralEoS
+EoS    = ComplexEoS()
 params = assign_EoS_parameters(:Diamond)
 P      = 5.0e9
 T      = 1100.0
-ρ, V   = density_volume(Val(:complex), P, T, params)
+ρ, V   = density_volume(EoS, P, T, params)
 ```
 should return the density (kg/m<sup>3</sup>) and the volume (cm<sup>3</sup>):
 ```julia-repl
-julia> (33526.1420450764394, 3.4091933468152167)
+julia> (3526.1420450764394, 3.4091933468152167)
 ```
 
 The following example uses an additional dimensional scaling:
 ```julia
 using MineralEoS
 scales = (σ = 1e9, L = 1e3, t = 1e12, T = 100.0)
+EoS    = ComplexEoS()
 params = assign_EoS_parameters(:Diamond, sc=scales)
 P      = 5.0e9  / scales.σ
 T      = 1100.0 / scales.T
-ρ, V   = density_volume(Val(:complex), P, T, params)
+ρ, V   = density_volume(EoS, P, T, params)
 ρc     = scales.σ * scales.L * scales.t^2.0 / scales.L^3 
 (ρ * ρc, V * scales.L^3)
 ```
@@ -49,12 +51,12 @@ params = assign_EoS_parameters(:Diamond)
 P      = 5.0e9
 T      = 1100.0
 # Uses exponential model
-ρ, V   = density_volume(Val(:simple), P, T, params)
+ρ, V   = density_volume(SimpleEoS(), P, T, params)
 # Complex model. Default Birch-Munaghan O3 + Einstein
-ρ, V   = density_volume(Val(:complex), P, T, params)
+ρ, V   = density_volume(ComplexEoS(), P, T, params)
 # More flexibility...
-opts   = (thermal_model=:Debye, mechanical_model=:BM4)
-ρ, V   = density_volume(Val(:complex), P, T, params; options=opts)
+opts   = (thermal_model=Debye(), mechanical_model=BM4())
+ρ, V   = density_volume(ComplexEoS(), P, T, params; options=opts)
 ```
 
 # Governing equations

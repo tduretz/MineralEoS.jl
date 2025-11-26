@@ -4,7 +4,7 @@ const Ζ4 = pi^4/90
     return R*θE/(exp(θE/T) - 1)
 end
 
-@inline function thermal_pressure(::Val{:Einstein}, V, T, materials)
+@inline function thermal_pressure(model::Einstein, V, T, materials)
     γ0    = materials.γ0
     θE0   = materials.θE
     T0    = materials.T0
@@ -45,7 +45,7 @@ end
     return 3/x^3*I3_series(x) 
 end
 
-@inline function thermal_pressure(::Val{:Debye}, V, T, materials)
+@inline function thermal_pressure(model::Debye, V, T, materials)
     γ0    = materials.γ0
     θD0   = materials.θD
     T0    = materials.T0

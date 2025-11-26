@@ -1,4 +1,4 @@
-using Enzyme
+using MineralEoS
 
 let
     # Define characteristic units
@@ -11,7 +11,7 @@ let
     params = assign_EoS_parameters(:OlivineFo90; sc=scales)
 
     # Set EoS type (:complex or :simple)
-    EoS  = Val(:complex)
+    EoS  = ComplexEoS()
 
     # Define P, T
     P = 0e9   / scales.σ
@@ -26,7 +26,7 @@ let
 
     # Use more advanced options for the complex model (thermal and mechanical models) 
     @info "Option: Debye model"
-    opts = (thermal_model=:Debye, mechanical_model=:BM2)
+    opts = (thermal_model=Debye(), mechanical_model=BM2())
     ρ, V = density_volume(EoS, P, T, params; options=opts)
 
     # Scale back

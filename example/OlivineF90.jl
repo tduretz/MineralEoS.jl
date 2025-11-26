@@ -3,6 +3,7 @@ import LinearAlgebra: norm
 
 let
     # Get material parameters from database
+    EoS    = ComplexEoS()
     params = assign_EoS_parameters(:OlivineFo90)
 
     # Olivine Fo90-92: data produced by Prof. Ross Angel using EOSFIT7c
@@ -27,7 +28,7 @@ let
 
     # Loop over P-T grid
     for j in eachindex(T), i in eachindex(P)
-        ρ[i,j], V[i,j] = density_volume(Val(:complex), P[i], T[j], params)
+        ρ[i,j], V[i,j] = density_volume(EoS, P[i], T[j], params)
     end
 
     # Compute error w.r.t. EOSFIT7c
