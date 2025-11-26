@@ -1,3 +1,5 @@
+using MuladdMacro
+
 @inline function mechanical_pressure_no_opt(model::BM4, V, materials)
     # Birch-Murnaghan EOS
     V0  = materials.V0
@@ -10,13 +12,13 @@
     return P
 end
 
-@inline function mechanical_pressure(model::BM4, V, materials)
+@inline @muladd function mechanical_pressure(model::BM4, V, materials)
     # Birch-Murnaghan EOS
     V0  = materials.V0
     K0  = materials.K/1e9
     Kp  = materials.∂K∂P
     Kpp = materials.∂2K∂P2
-    η   = (V0/(V))^(2/3)
+    η   = fastpow(V0/V, 2/3)
     f   = 1/2 * (η - 1.0)
     a   = 1 + 2*f
     b   = 3*K0*f* a * a * sqrt(a)
@@ -35,12 +37,12 @@ end
     return P
 end
 
-@inline function mechanical_pressure(model::BM3, V, materials)
+@inline @muladd function mechanical_pressure(model::BM3, V, materials)
     # Birch-Murnaghan EOS
     V0 = materials.V0
     K0 = materials.K/1e9
     Kp = materials.∂K∂P
-    η  = (V0/(V))^(2/3)
+    η  = fastpow(V0/V, 2/3)
     f  = 1/2 * (η - 1.0) 
     a  = 1 + 2*f
     b  = 3*K0*f* a * a * sqrt(a)
@@ -52,17 +54,17 @@ end
     # Birch-Murnaghan EOS
     V0 = materials.V0
     K0 = materials.K/1e9
-    η  = (V0/(V))^(2/3)
+    η  = (V0/V)^(2/3)
     f  = 1/2 * (η - 1.0) 
     P  = 3*K0*f*(1 + 2*f)^(5/2)
     return P
 end
 
-@inline function mechanical_pressure(model::BM2, V, materials)
+@inline @muladd function mechanical_pressure(model::BM2, V, materials)
     # Birch-Murnaghan EOS
     V0 = materials.V0
     K0 = materials.K/1e9
-    η  = (V0/(V))^(2/3)
+    η  = fastpow(V0/V, 2/3)
     f  = 1/2 * (η - 1.0) 
     a  = 1 + 2*f
     P  = 3*K0*f* a * a * sqrt(a)

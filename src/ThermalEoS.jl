@@ -20,11 +20,11 @@ end
     q     = materials.q
     Natom = materials.Natom
     R     = materials.R
-    γ     = γ0 * ((V)/V0)^q
+    γ     = γ0 * (V/V0)^q
     if materials.qcompromised
         θE    = θE0
     else
-        θE    = θE0*((V)/V0)^(-γ)
+        θE    = θE0*(V/V0)^(-γ)
     end
     sca   = 1e-3 # 1e6/1e9 : (m3 -> cm3) / (GPa -> Pa) 
     P     = sca * 3*Natom*γ/V * (U_Einstein_no_opt(T, θE, R) - U_Einstein_no_opt(T0, θE, R))
@@ -40,11 +40,11 @@ end
     Natom = materials.Natom
     R     = materials.R
     V̄     = V/V0
-    γ     = γ0 * V̄^q
+    γ     = γ0 * fastpow(V̄, q)
     if materials.qcompromised
         θE    = θE0
     else
-        θE    = θE0*V̄^(-γ)
+        θE    = θE0*fastpow(V̄, -γ)
     end
     sca   = 1e-3 # 1e6/1e9 : (m3 -> cm3) / (GPa -> Pa) 
     P     = sca * 3*Natom*γ/V * (U_Einstein(T, θE, R) - U_Einstein(T0, θE, R))
@@ -128,7 +128,7 @@ end
     q     = materials.q
     Natom = materials.Natom
     R     = materials.R
-    V̄     = (V/V0)^q
+    V̄     = fastpow(V/V0, q)
     γ     = γ0 * V̄
     θD    = θD0 * exp(- (γ0 / q) * (V̄ - 1.0))
     sca   = 1e-3 # 1e6/1e9 : (m3 -> cm3) / (GPa -> Pa) 

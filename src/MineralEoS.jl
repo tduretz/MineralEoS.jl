@@ -16,6 +16,16 @@ struct Einstein <: AbstractThermal end
 struct Debye    <: AbstractThermal end
 export Einstein, Debye
 
+# fast exponential from Albert
+@inline fastpow(x::Number, n::Integer) = x^n
+
+@inline function fastpow(x::Number, n::AbstractFloat)
+    isinteger(n) && return x^Int(n)
+    x > 0 && return exp(log(x) * n)
+    return x^n
+end
+export fastpow
+
 include("DataEoS.jl")
 export assign_EoS_parameters
 
