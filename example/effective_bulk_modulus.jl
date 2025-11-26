@@ -22,11 +22,7 @@ let
     ρ, V = density_volume(EoS, P, T, params)
 
     # Compare K with ∂ρ∂P
-    dP = 1.0 
-
-    s    = compute_density_derivative((EoS, P, dP, T, params)...)
-    ∂ρ∂P = s[1][1]
-    Keff = ρ / ∂ρ∂P
+    Keff  = compute_eff_bulk_modulus((EoS, P, 1.0, T, params)...)
 
     @info "Compare K and ρ*∂P∂ρ: simple EoS" 
     @show params.K * scales.σ, Keff * scales.σ
@@ -43,11 +39,7 @@ let
     ρ, V = density_volume(EoS, P, T, params; options=opts)
 
     # Compare K with ∂ρ∂P
-    dP = 1.0 
-
-    s    = compute_density_derivative((EoS, P, dP, T, params, opts)...)
-    ∂ρ∂P = s[1][1]
-    Keff = ρ / ∂ρ∂P
+    Keff  = compute_eff_bulk_modulus((EoS, P, 1.0, T, params, opts)...)
 
     @info "Compare K and ρ*∂P∂ρ: complex EoS" 
     @show params.K * scales.σ, Keff * scales.σ

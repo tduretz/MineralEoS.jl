@@ -1,6 +1,5 @@
 module MineralEoS
 
-
 abstract type AbstractEoS end
 struct SimpleEoS  <: AbstractEoS end
 struct ComplexEoS <: AbstractEoS end
@@ -30,6 +29,6 @@ include("Solver.jl")
 export density_volume
 
 include("Derivatives.jl")
-export compute_density_derivative
+export compute_density_derivative, compute_eff_bulk_modulus
 
 end # module MineralEoS
