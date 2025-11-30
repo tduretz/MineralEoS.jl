@@ -1,7 +1,7 @@
 module MineralEoS
 
 abstract type AbstractEoS end
-struct SimpleEoS  <: AbstractEoS end
+struct SimpleEoS <: AbstractEoS end
 struct ComplexEoS <: AbstractEoS end
 export SimpleEoS, ComplexEoS
 
@@ -13,7 +13,7 @@ export BM2, BM3, BM4
 
 abstract type AbstractThermal end
 struct Einstein <: AbstractThermal end
-struct Debye    <: AbstractThermal end
+struct Debye <: AbstractThermal end
 export Einstein, Debye
 
 # fast exponential from Albert
