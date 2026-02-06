@@ -1,5 +1,9 @@
 module MineralEoS
 
+using MuladdMacro
+using ForwardDiff: ForwardDiff
+using DifferentiationInterface
+
 abstract type AbstractEoS end
 struct SimpleEoS <: AbstractEoS end
 struct ComplexEoS <: AbstractEoS end
@@ -24,6 +28,10 @@ export Einstein, Debye
     x > 0 && return exp(log(x) * n)
     return x^n
 end
+
+# generic fallback
+@inline fastpow(x, n) = x^n
+
 export fastpow
 
 include("DataEoS.jl")
