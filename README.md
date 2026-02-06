@@ -8,7 +8,7 @@ This package is designed to compute the densities and volumes of the following m
 
 `MineralEoS.jl` does not aim to provide all the features of [`EoSFit`](http://www.rossangel.com/text_eosfit.htm); rather, it focuses on exposing core functionalities, such as density computation, and making them available for codes that rely on automatic differentiation in Julia (e.g. [StagFDTools](https://github.com/tduretz/StagFDTools)).
 
-`MineralEoS.jl` was initially developped by T. Duretz & R.J. Angel.
+`MineralEoS.jl` was initially developed by T. Duretz & R.J. Angel.
 
 # Quickstart
 
@@ -140,7 +140,7 @@ The possibility to switch between `:simple` and `:complex` models is shown in th
 The diamond case:
 ![](/results/Diamond_exp_BM3.png)
 
-This example clearly highlights the fact that thermal effects are not accurately captured by the exponential model. The resulting density diffences between the two modes reaches 20 kg/m<sup>3</sup> at high temperature. 
+This example clearly highlights the fact that thermal effects are not accurately captured by the exponential model. The resulting density differences between the two modes reaches 20 kg/m<sup>3</sup> at high temperature. 
 
 The olivine case:
 ![](/results/OlivineF90_exp_BM3.png)
