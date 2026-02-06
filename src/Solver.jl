@@ -1,4 +1,3 @@
-
 @inline function residual(V, P, T, materials, options)
     # @show  thermal_pressure(Val(options.thermal_model), V, T, materials)
     return P - mechanical_pressure(options.mechanical_model, V, materials) - thermal_pressure(options.thermal_model, V, T, materials)
@@ -25,7 +24,7 @@ end
     while (iter < niter && err > tol)
         iter += 1
         # Evaluate the function and the Jacobian: r, ∂r∂V
-        r, J = value_and_derivative(x->residual(x, P, T, materials, options), AutoForwardDiff(), V)
+        r, J = value_and_derivative(x -> residual(x, P, T, materials, options), AutoForwardDiff(), V)
         if iter == 1
             r0 = r
         end
