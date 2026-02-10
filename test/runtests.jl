@@ -2,7 +2,7 @@ using Test
 using MineralEoS
 
 @testset "Diamond - SimpleEoS()           " begin
-    EoS    = SimpleEoS()
+    EoS = SimpleEoS()
     params = assign_EoS_parameters(:Diamond)
     # Low T, low P
     P = 0.0e9
@@ -18,7 +18,7 @@ using MineralEoS
     @test ρ ≈ 3547.186562159455
 end
 @testset "Diamond - ComplexEoS()          " begin
-    EoS    = ComplexEoS()
+    EoS = ComplexEoS()
     params = assign_EoS_parameters(:Diamond)
     # Low T, low P
     P = 0.0e9
@@ -35,7 +35,7 @@ end
 end
 
 @testset "OlivineFo90 - SimpleEoS()       " begin
-    EoS    = SimpleEoS()
+    EoS = SimpleEoS()
     params = assign_EoS_parameters(:OlivineFo90)
     # Low T, low P
     P = 0.0e9
@@ -52,7 +52,7 @@ end
 end
 
 @testset "OlivineFo90 - ComplexEoS()      " begin
-    EoS    = ComplexEoS()
+    EoS = ComplexEoS()
     params = assign_EoS_parameters(:OlivineFo90)
     # Low T, low P
     P = 0.0e9
@@ -88,7 +88,7 @@ end
 end
 
 @testset "Eff. bulk modulus - SimpleEoS() " begin
-    EoS    = SimpleEoS()
+    EoS = SimpleEoS()
     params = assign_EoS_parameters(:OlivineFo90)
     # Low T, low P
     P = 0.0e9
@@ -97,7 +97,7 @@ end
     @test Keff ≈ params.K
 end
 @testset "Eff. bulk modulus - ComplexEoS()" begin
-    EoS    = ComplexEoS()
+    EoS = ComplexEoS()
     params = assign_EoS_parameters(:OlivineFo90)
     # Low T, low P
     P = 0.0e9
