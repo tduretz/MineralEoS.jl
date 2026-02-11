@@ -1,0 +1,8 @@
+[default.extend-words]
+Fo = "Fo"
+Investigacion = "Investigacion"
+
+[default]
+extend-ignore-words-re = [
+    "(?i)normale\\s+supérieure"
+]
