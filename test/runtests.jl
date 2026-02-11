@@ -67,24 +67,25 @@ end
     @test V ≈ 43.258393151067864
     @test ρ ≈ 3246.7225379714073
 end
-
-@testset "∂ρ∂P  - SimpleEoS()             " begin
+@testset "∂ρ∂P, dρdT  - SimpleEoS()       " begin
     EoS    = SimpleEoS()
     params = assign_EoS_parameters(:OlivineFo90)
     # Low T, low P
     P = 0.0e9
     T = 300.0
-    dρdP, = compute_density_derivative(EoS, P, T, params)
+    dρdP, dρdT = compute_density_derivative(EoS, P, T, params)
     @test abs( (dρdP - params.ρ0/params.K) ) / dρdP < 1e-4
+    @test abs( (dρdT - params.ρ0*params.α) ) / dρdT < 1e-4
 end
-@testset "∂ρ∂P  - ComplexEoS()            " begin
+@testset "∂ρ∂P, dρdT - ComplexEoS()       " begin
     EoS    = ComplexEoS()
     params = assign_EoS_parameters(:OlivineFo90)
     # Low T, low P
     P = 0.0e9
     T = 300.0
-    dρdP, = compute_density_derivative(EoS, P, T, params)
+    dρdP, dρdT = compute_density_derivative(EoS, P, T, params)
     @test dρdP ≈ 2.5342682726163707e-8
+    @test dρdT ≈ -0.08606190522067628
 end
 
 @testset "Eff. bulk modulus - SimpleEoS() " begin
