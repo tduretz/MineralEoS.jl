@@ -74,7 +74,7 @@ end
     # Low T, low P
     P = 0.0e9
     T = 300.0
-    dρdP = compute_density_derivative(EoS, P, T, params)
+    dρdP, = compute_density_derivative(EoS, P, T, params)
     @test abs( (dρdP - params.ρ0/params.K) ) / dρdP < 1e-4
 end
 @testset "∂ρ∂P  - ComplexEoS()            " begin
@@ -83,7 +83,7 @@ end
     # Low T, low P
     P = 0.0e9
     T = 300.0
-    dρdP = compute_density_derivative(EoS, P, T, params)
+    dρdP, = compute_density_derivative(EoS, P, T, params)
     @test dρdP ≈ 2.5342682726163707e-8
 end
 
@@ -105,3 +105,25 @@ end
     Keff = compute_eff_bulk_modulus(EoS, P, T, params)
     @test Keff ≈ 1.2626240745245195e11
 end
+
+
+# EoS = SimpleEoS()
+# params = assign_EoS_parameters(:OlivineFo90)
+# # Low T, low P
+# P = 0.0e9
+# T = 300.0
+# PT = SA[P, T]
+# density_volume(EoS, P, T, params)
+
+# @inline function compute_eff_bulk_modulus(EoS, PT::SVector{2}, params)
+#     f, J = value_and_jacobian(PT -> density_volume(EoS, PT, params), AutoForwardDiff(), PT)
+#     ρ = f[1]
+#     dρdP = J[1, 1] 
+#     K = ρ / dρdP
+#     return K
+# end
+
+# ForwardDiff.jacobian(PT -> density_volume(EoS, PT, params), PT)
+
+# DifferentiationInterface.derivative(P -> density_volume(EoS, P, T, params), AutoForwardDiff(), P)
+# DifferentiationInterface.derivative(T -> density_volume(EoS, P, T, params), AutoForwardDiff(), T)
