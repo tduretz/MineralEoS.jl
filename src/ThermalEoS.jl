@@ -1,7 +1,7 @@
 using MuladdMacro
 
 const Ζ4 = pi^4 / 90
-@inline expm1(x) = exp(x) - 1
+# @inline expm1(x) = exp(x) - 1
 
 @inline function U_Einstein_no_opt(T, θE, R)
     return R * θE / (exp(θE / T) - 1)
@@ -105,14 +105,8 @@ end
     return 3 / (x * x * x) * I3_series(x)
 end
 
-@inline function thermal_pressure_no_opt(model::Debye, V, T, materials)
-    γ0 = materials.γ0
-    θD0 = materials.θD
-    T0 = materials.T0
-    V0 = materials.V0
-    q = materials.q
-    Natom = materials.Natom
-    R = materials.R
+@inline function thermal_pressure_no_opt(::Debye, V, T, materials)
+    (; γ0, θD0, T0, V0, q, Natom, R) = materials
     γ = γ0 * (V / V0)^q
     θD = θD0 * exp(- (γ0 / q) * ((V / V0)^q - 1.0))
     sca = 1.0e-3 # 1e6/1e9 : (m3 -> cm3) / (GPa -> Pa)
@@ -120,14 +114,8 @@ end
     return P
 end
 
-@inline @muladd function thermal_pressure(model::Debye, V, T, materials)
-    γ0 = materials.γ0
-    θD0 = materials.θD
-    T0 = materials.T0
-    V0 = materials.V0
-    q = materials.q
-    Natom = materials.Natom
-    R = materials.R
+@inline @muladd function thermal_pressure(::Debye, V, T, materials)
+    (; γ0, θD0, T0, V0, q, Natom, R) = materials
     V̄ = fastpow(V / V0, q)
     γ = γ0 * V̄
     θD = θD0 * exp(- (γ0 / q) * (V̄ - 1.0))

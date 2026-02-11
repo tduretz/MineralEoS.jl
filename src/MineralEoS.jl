@@ -3,6 +3,7 @@ module MineralEoS
 using MuladdMacro
 using ForwardDiff: ForwardDiff
 using DifferentiationInterface
+using StaticArrays
 
 abstract type AbstractEoS end
 struct SimpleEoS <: AbstractEoS end

@@ -9,6 +9,21 @@ end
         niter = 20, tol = 1.0e-12
     )
 
+    density_volume(
+        EoS, SA[P, T], materials;
+        options = (thermal_model = options.thermal_model, mechanical_model = options.mechanical_model),
+        niter = niter, tol = tol
+    )
+
+end
+
+@inline function density_volume(
+        ::ComplexEoS, PT, materials;
+        options = (thermal_model = Einstein(), mechanical_model = BM3()),
+        niter = 20, tol = 1.0e-12
+    )
+
+    P, T = PT[1], PT[2]
     P /= 1.0e9
     ρ0 = materials.ρ0
     V0 = materials.V0
@@ -33,12 +48,15 @@ end
         V -= r / J
     end
     ρ = ρ0 * V0 / V
-    return ρ, V
+    return SA[ρ, V]
 end
 
-@inline function density_volume(::SimpleEoS, P, T, materials)
+density_volume(EoS::SimpleEoS, P, T, materials) = density_volume(EoS, SA[P, T], materials)
+
+@inline function density_volume(::SimpleEoS, PT::SVector{2}, materials)
     (; ρ0, α, K, V0, T0) = materials
+    P, T = PT[1], PT[2]
     ρ = @fastmath ρ0 * exp(P / K - α * (T - T0))
     V = V0 * ρ0 / ρ
-    return ρ, V
+    return SA[ρ, V]
 end
