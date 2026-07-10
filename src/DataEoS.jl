@@ -93,7 +93,7 @@ function assign_EoS_parameters(mineral; sc = (σ = 1.0, L = 1.0, t = 1.0, T = 1.
             q = 1.0,    # different of 1.0 is q 
             Natom = 20,
             α = 1.0e-6, # dummy
-            qcompromised = false,
+            qcompromised = true,
         )
         # Compute reference expansivity
         α0 = reference_expansivity(params)
