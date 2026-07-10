@@ -76,6 +76,28 @@ function assign_EoS_parameters(mineral; sc = (σ = 1.0, L = 1.0, t = 1.0, T = 1.
         # Compute reference expansivity
         α0 = reference_expansivity(params)
 
+    elseif mineral === :Almandine
+        # EoS parameters
+        params = (
+            # Birch-Murnaghan
+            ρ0 = 4100.0,  # reference density kg/m³
+            V0 = 115.25,  # molar volume cm³/mol
+            K =  174.6e9,
+            ∂K∂P = 5.41,
+            ∂2K∂P2 =-0.0418,
+            # Einstein's model for Pthermal
+            θE = 694.772, # Einstein temperature ≈ 0.806 * Debye temperature
+            θD = 862.0, # Debye temperature, K
+            γ0 = 1.16, # Gruneisen parameter
+            T0 = 298.0, # Reference temperature K
+            q = 1.0,    # different of 1.0 is q 
+            Natom = 20,
+            α = 1.0e-6, # dummy
+            qcompromised = true,
+        )
+        # Compute reference expansivity
+        α0 = reference_expansivity(params)
+
     else
         error("Mineral phase not yet implemented!")
     end

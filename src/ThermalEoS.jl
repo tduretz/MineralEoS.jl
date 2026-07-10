@@ -106,20 +106,20 @@ end
 end
 
 @inline function thermal_pressure_no_opt(::Debye, V, T, materials)
-    (; γ0, θD0, T0, V0, q, Natom, R) = materials
+    (; γ0, θD, T0, V0, q, Natom, R) = materials
     γ = γ0 * (V / V0)^q
-    θD = θD0 * exp(- (γ0 / q) * ((V / V0)^q - 1.0))
+    θD1 = θD * exp(- (γ0 / q) * ((V / V0)^q - 1.0))
     sca = 1.0e-3 # 1e6/1e9 : (m3 -> cm3) / (GPa -> Pa)
-    P = sca * 3 * Natom * γ / V * (U_Debye_no_opt(T, θD, R) - U_Debye_no_opt(T0, θD, R))
+    P = sca * 3 * Natom * γ / V * (U_Debye_no_opt(T, θD1, R) - U_Debye_no_opt(T0, θD1, R))
     return P
 end
 
 @inline @muladd function thermal_pressure(::Debye, V, T, materials)
-    (; γ0, θD0, T0, V0, q, Natom, R) = materials
+    (; γ0, θD, T0, V0, q, Natom, R) = materials
     V̄ = fastpow(V / V0, q)
     γ = γ0 * V̄
-    θD = θD0 * exp(- (γ0 / q) * (V̄ - 1.0))
+    θD1 = θD * exp(- (γ0 / q) * (V̄ - 1.0))
     sca = 1.0e-3 # 1e6/1e9 : (m3 -> cm3) / (GPa -> Pa)
-    P = sca * 3 * Natom * γ / V * (U_Debye(T, θD, R) - U_Debye(T0, θD, R))
+    P = sca * 3 * Natom * γ / V * (U_Debye(T, θD1, R) - U_Debye(T0, θD1, R))
     return P
 end
